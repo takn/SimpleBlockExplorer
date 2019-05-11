@@ -2,21 +2,33 @@ package com.studio1r.simpleblockexplorer
 
 import io.reactivex.Observable
 
-class BlockRepositoryImpl : BlockRepository {
-
-    override fun getNBlocks(startBlock: Int, blockCount: Int): Observable<List<Block>> {
-        if (startBlock < 1) {
-            throw IllegalArgumentException(INVALID_BLOCK_ID)
-        }
-        if (blockCount > startBlock) {
-            throw IllegalArgumentException(INVALID_BLOCK_COUNT_REQUEST)
-        }
-        return Observable.just(emptyList())
-    }
-
+class BlockRepositoryImpl(val api: EOSApiService) : BlockRepository {
     companion object {
-        const val INVALID_BLOCK_ID = "Block id must be larger than zero"
-        const val INVALID_BLOCK_COUNT_REQUEST = "blockCount cannot be a value larger thant startBlock. " +
-                "This is because block numbers increase by one and the entire list cannot be populated."
+        const val ILLEGAL_BLOCK_COUNT_ERROR: String = "blockCount argument is larger than head block number"
     }
+
+    /**
+     * Gets the head_block_num from info and gets the previous N blocks as defined by blockCount
+     */
+    override fun getLastNBlocks(blockCount: Int): Observable<List<Block>> {
+        var blocks = mutableListOf<Block>()
+        return api.info.flatMap { blockInfo ->
+            if (blockCount > blockInfo.head_block_num) {
+                println("throw exeception")
+                throw IllegalArgumentException(ILLEGAL_BLOCK_COUNT_ERROR)
+            }
+            Observable.range((blockInfo.head_block_num + 1) - blockCount, blockCount)
+        }.map { it ->
+            var reversed = blockCount - it + 1
+            api.getBlock(reversed)
+
+        }.map { t -> blocks.add(t.blockingLast()) }
+                .flatMap {
+                    Observable.fromArray(blocks)
+                }
+    }
+
 }
+
+
+
