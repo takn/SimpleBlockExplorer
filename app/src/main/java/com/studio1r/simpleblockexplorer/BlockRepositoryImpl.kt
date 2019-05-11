@@ -12,17 +12,18 @@ class BlockRepositoryImpl(val api: EOSApiService) : BlockRepository {
      */
     override fun getLastNBlocks(blockCount: Int): Observable<List<Block>> {
         var blocks = mutableListOf<Block>()
-        return api.info.flatMap { blockInfo ->
-            if (blockCount > blockInfo.head_block_num) {
-                println("throw exeception")
-                throw IllegalArgumentException(ILLEGAL_BLOCK_COUNT_ERROR)
-            }
-            Observable.range((blockInfo.head_block_num + 1) - blockCount, blockCount)
-        }.map { it ->
-            var reversed = blockCount - it + 1
-            api.getBlock(reversed)
+        return api.info
+                .flatMap { blockInfo ->
+                    println("BLOCK INFO::" + blockInfo)
+                    if (blockCount > blockInfo.head_block_num) {
+                        throw IllegalArgumentException(ILLEGAL_BLOCK_COUNT_ERROR)
+                    }
+                    Observable.range((blockInfo.head_block_num + 1) - blockCount, blockCount)
+                }.map { it ->
+                    var reversed = blockCount - it + 1
+                    api.getBlock(reversed)
 
-        }.map { t -> blocks.add(t.blockingLast()) }
+                }.map { t -> blocks.add(t.blockingLast()) }
                 .flatMap {
                     Observable.fromArray(blocks)
                 }
