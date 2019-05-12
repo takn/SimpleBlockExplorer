@@ -27,3 +27,12 @@ simpler approach was used in the interest of time.
 BlockListViewModel subscribes to BlockRepository and then forwards that data to the view via LiveData.
 Errors are handled by the viewModel. 
 
+
+TODOS:
+Action counts are not displayed. GSon was chosen for deserialization. When dealing with complex datatypes
+TypeTokens are necessary. Due to time constraints, they were not added in. 
+Instrumented tests should have a bit more coverage, only a couple of simple tests are in place with 
+the purpose of demonstrating an understanding of how to work with them. 
+
+
+
