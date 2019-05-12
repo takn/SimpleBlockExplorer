@@ -1,13 +1,13 @@
-* EOS Simple block explorer
+# EOS Simple block explorer
 
 This sample app uses a simple MVVM architecture to fetch the ten most recent blocks from
 api.eosnewyork.io
 
 It is composed as follows:
 
-*** Model     = BlockEntity
-*** View      = BlockListFragment
-*** ViewModel = BlockListViewModel
+* Model     = BlockEntity
+* View      = BlockListFragment
+* ViewModel = BlockListViewModel
 
 BlockListViewModel provides a LiveData observable to which the BlockListFragment subscribes to.
 A simple button from the fragment invokes a block refresh to BlockListViewModel.
@@ -28,7 +28,8 @@ BlockListViewModel subscribes to BlockRepository and then forwards that data to 
 Errors are handled by the viewModel. 
 
 
-TODOS:
+#### TODOS:
+
 Action counts are not displayed. GSon was chosen for deserialization. When dealing with complex datatypes
 TypeTokens are necessary. Due to time constraints, they were not added in. 
 Instrumented tests should have a bit more coverage, only a couple of simple tests are in place with 
