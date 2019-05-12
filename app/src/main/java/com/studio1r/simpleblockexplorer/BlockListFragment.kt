@@ -21,11 +21,7 @@ class BlockListFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-
-        var v = inflater.inflate(R.layout.block_list_fragment, container, false)
-
-
-        return v
+        return inflater.inflate(R.layout.block_list_fragment, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -37,7 +33,9 @@ class BlockListFragment : Fragment() {
             layoutManager = lm
             adapter = blockAdapter
         }
-        viewModel = ViewModelProviders.of(this, a.resourceLocator.factory)
+        var app = a.application as ResourceProvider
+        var resourceLocator = app.resourceLocator
+        viewModel = ViewModelProviders.of(this, resourceLocator.factory)
                 .get(BlockListViewModel::class.java)
         viewModel.getBlocksLiveData().observe(this, Observer { data ->
             blockAdapter.updateData(data!!)
@@ -48,7 +46,7 @@ class BlockListFragment : Fragment() {
 
 }
 
-public class BlockAdapter : RecyclerView.Adapter<BlockAdapter.ViewHolder>() {
+class BlockAdapter : RecyclerView.Adapter<BlockAdapter.ViewHolder>() {
     private var data = listOf<BlockEntity>()
     override fun getItemCount(): Int {
         return data.size
@@ -69,7 +67,7 @@ public class BlockAdapter : RecyclerView.Adapter<BlockAdapter.ViewHolder>() {
         notifyDataSetChanged()
     }
 
-     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(data: BlockEntity) {
             itemView.timeStamp.text = String.format("timestamp: %s", data.timestamp)
             itemView.blockId.text = String.format("block num: %d", data.block_num)

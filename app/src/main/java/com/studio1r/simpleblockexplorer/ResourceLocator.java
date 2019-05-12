@@ -1,5 +1,7 @@
 package com.studio1r.simpleblockexplorer;
 
+import android.util.Log;
+
 import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -21,6 +23,7 @@ public class ResourceLocator {
     private BlockInfoRequestFactory requestFactory;
 
     public BlockRepository getBlockRepository() {
+        Log.d("INIT", "get regular block repository");
         if (blockRepository == null) {
             blockRepository = new BlockRepositoryImpl(getEosApiService(), getRequestFactory());
         }

@@ -4,7 +4,7 @@ import android.support.test.InstrumentationRegistry
 import android.support.test.espresso.Espresso.onView
 import android.support.test.espresso.IdlingRegistry
 import android.support.test.espresso.IdlingResource
-import android.support.test.espresso.action.ViewActions.click
+import android.support.test.espresso.assertion.ViewAssertions
 import android.support.test.espresso.matcher.ViewMatchers
 import android.support.test.filters.LargeTest
 import android.support.test.rule.ActivityTestRule
@@ -41,6 +41,8 @@ class MainIntegrationTest {
 
     }
 
+//    @BeforeClass
+
     @get:Rule
     var activityRule: ActivityTestRule<MainActivity> = ActivityTestRule(MainActivity::class.java)
 
@@ -64,6 +66,7 @@ class MainIntegrationTest {
 
     @Test
     fun itemsCanExpand() {
-        onView(ViewMatchers.withId(R.id.refresh)).perform(click())
+        onView(ViewMatchers.withSubstring("block_num"))
+                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
     }
 }
