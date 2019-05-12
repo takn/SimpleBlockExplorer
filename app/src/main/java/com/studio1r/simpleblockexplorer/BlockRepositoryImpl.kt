@@ -11,8 +11,8 @@ class BlockRepositoryImpl(private val api: EOSApiService,
     /**
      * Gets the head_block_num from info and gets the previous N blocks as defined by blockCount
      */
-    override fun getLastNBlocks(blockCount: Int): Observable<List<Block>> {
-        var blocks = mutableListOf<Block>()
+    override fun getLastNBlocks(blockCount: Int): Observable<List<BlockEntity>> {
+        var blocks = mutableListOf<BlockEntity>()
         return api.info
                 .flatMap { blockInfo ->
                     if (blockCount > blockInfo.head_block_num) {

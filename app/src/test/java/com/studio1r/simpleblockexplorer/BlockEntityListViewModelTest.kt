@@ -12,7 +12,7 @@ import org.junit.Test
 import org.mockito.Mock
 import org.mockito.MockitoAnnotations
 
-class BlockListViewModelTest {
+class BlockEntityListViewModelTest {
 
     @get:Rule
     val rule = InstantTaskExecutorRule()
@@ -22,7 +22,7 @@ class BlockListViewModelTest {
     lateinit var repository: BlockRepository;
 
     @Mock
-    lateinit var observer: Observer<List<Block>>
+    lateinit var observer: Observer<List<BlockEntity>>
 
     private lateinit var sut: BlockListViewModel
 
@@ -39,19 +39,19 @@ class BlockListViewModelTest {
         whenever(repository.getLastNBlocks(10)).thenReturn(Observable.just(emptyList()))
         sut.getBlocks().observeForever(observer)
         testScheduler.triggerActions()
-        Assert.assertEquals(0, sut.blockLiveData.value?.size)
+        Assert.assertEquals(0, sut.blockEntityLiveData.value?.size)
     }
 
     @Test
     internal fun canGetBlocks() {
-        var blocks = mutableListOf<Block>()
+        var blocks = mutableListOf<BlockEntity>()
         for (i in 1..10) {
-            blocks.add(Block(i.toString()))
+            blocks.add(BlockEntity(i.toString()))
         }
         whenever(repository.getLastNBlocks(10)).thenReturn(Observable.just(blocks))
         sut.getBlocks().observeForever(observer)
         testScheduler.triggerActions()
-        Assert.assertEquals(10, sut.blockLiveData.value?.size)
+        Assert.assertEquals(10, sut.blockEntityLiveData.value?.size)
 
     }
 

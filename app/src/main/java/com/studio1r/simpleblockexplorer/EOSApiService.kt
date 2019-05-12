@@ -11,5 +11,5 @@ interface EOSApiService {
     val info: Observable<BlockInfo>
 
     @POST("get_block")
-    fun getBlock(@Body() blockId: BlockInfoRequest): Observable<Block>
+    fun getBlock(@Body() blockId: BlockInfoRequest): Observable<BlockEntity>
 }

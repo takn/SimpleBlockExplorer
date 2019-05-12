@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">SimpleBlockExplorer</string>
+    <string name="refresh_blocks">Refresh Blocks</string>
 </resources>

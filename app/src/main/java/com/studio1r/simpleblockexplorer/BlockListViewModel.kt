@@ -11,22 +11,22 @@ class BlockListViewModel(private val repository: BlockRepository,
                          private val executionScheduler: Scheduler,
                          private val observerScheduler: Scheduler) : ViewModel() {
     @VisibleForTesting
-    public val blockLiveData: MutableLiveData<List<Block>> = MutableLiveData()
+    val blockEntityLiveData: MutableLiveData<List<BlockEntity>> = MutableLiveData()
     @VisibleForTesting
     val errorLiveData: MutableLiveData<String> = MutableLiveData()
 
     @SuppressLint("CheckResult")
-    fun getBlocks(): LiveData<List<Block>> {
+    fun getBlocks(): LiveData<List<BlockEntity>> {
         repository.getLastNBlocks(10)
                 .subscribeOn(executionScheduler)
                 .observeOn(observerScheduler)
                 .subscribe({ result ->
-                    blockLiveData.value = result
+                    blockEntityLiveData.value = result
                 },
                         { t ->
                             errorLiveData.value = t.message
                         })
-        return blockLiveData
+        return blockEntityLiveData
     }
 
 }

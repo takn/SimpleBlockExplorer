@@ -10,7 +10,7 @@ import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.MockitoAnnotations
 
-class BlockRepositoryImplTest {
+class BlockEntityRepositoryImplTest {
     private lateinit var sut: BlockRepositoryImpl
     @Mock
     private lateinit var api: EOSApiService
@@ -29,7 +29,7 @@ class BlockRepositoryImplTest {
         var request = BlockInfoRequest(1)
         whenever(factory.fromId(any())).thenReturn(request)
         whenever(api.info).thenReturn(Observable.just(BlockInfo(HEAD_BLOCK_NUM)))
-        whenever(api.getBlock(request)).thenReturn(Observable.just(Block("1")))
+        whenever(api.getBlock(request)).thenReturn(Observable.just(BlockEntity("1")))
         sut.getLastNBlocks(EXPECTED_BLOCK_COUNT).subscribe()
         Mockito.verify<EOSApiService>(api, Mockito.atMost(1)).info
         Mockito.verify<EOSApiService>(api, Mockito.times(EXPECTED_BLOCK_COUNT)).getBlock(any())
