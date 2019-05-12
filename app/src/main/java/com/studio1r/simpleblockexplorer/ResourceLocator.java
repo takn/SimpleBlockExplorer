@@ -1,5 +1,8 @@
 package com.studio1r.simpleblockexplorer;
 
+import io.reactivex.Scheduler;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -15,12 +18,21 @@ public class ResourceLocator {
     private Retrofit retrofit;
     private EOSApiService service;
     private BlockListViewModelFactory factory;
+    private BlockInfoRequestFactory requestFactory;
 
     public BlockRepository getBlockRepository() {
         if (blockRepository == null) {
-            blockRepository = new BlockRepositoryImpl(getEosApiService());
+            blockRepository = new BlockRepositoryImpl(getEosApiService(), getRequestFactory());
         }
         return blockRepository;
+    }
+
+    private BlockInfoRequestFactory getRequestFactory() {
+
+        if (requestFactory == null) {
+            requestFactory = new BlockInfoRequestFactory();
+        }
+        return requestFactory;
     }
 
     private EOSApiService getEosApiService() {
@@ -50,9 +62,18 @@ public class ResourceLocator {
 
     public BlockListViewModelFactory getFactory() {
         if (factory == null) {
-            factory = new BlockListViewModelFactory(getBlockRepository());
+            factory = new BlockListViewModelFactory(getBlockRepository(),
+                    getExecutionScheduler(), getObservationScheduler());
         }
         return factory;
+    }
+
+    private Scheduler getObservationScheduler() {
+        return AndroidSchedulers.mainThread();
+    }
+
+    private Scheduler getExecutionScheduler() {
+        return Schedulers.io();
     }
 
 }

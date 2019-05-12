@@ -1,5 +1,7 @@
 package com.studio1r.simpleblockexplorer
 
+import com.nhaarman.mockitokotlin2.any
+import com.nhaarman.mockitokotlin2.whenever
 import io.reactivex.Observable
 import org.junit.Assert
 import org.junit.Before
@@ -11,28 +13,31 @@ import org.mockito.MockitoAnnotations
 class BlockRepositoryImplTest {
     private lateinit var sut: BlockRepositoryImpl
     @Mock
-    private lateinit var api: EOSApiService;
+    private lateinit var api: EOSApiService
+
+    @Mock
+    private lateinit var factory: BlockInfoRequestFactory
 
     @Before
     fun setUp() {
         MockitoAnnotations.initMocks(this)
-        sut = BlockRepositoryImpl(api)
+        sut = BlockRepositoryImpl(api, factory)
     }
 
     @Test
     fun expectedNumberOfBlocks() {
-        Mockito.`when`(api.info).thenReturn(Observable.just(BlockInfo(HEAD_BLOCK_NUM)))
-        for (i in 1..10) {
-            Mockito.`when`(api.getBlock(i)).thenReturn(Observable.just(Block(i)))
-        }
+        var request = BlockInfoRequest(1)
+        whenever(factory.fromId(any())).thenReturn(request)
+        whenever(api.info).thenReturn(Observable.just(BlockInfo(HEAD_BLOCK_NUM)))
+        whenever(api.getBlock(request)).thenReturn(Observable.just(Block("1")))
         sut.getLastNBlocks(EXPECTED_BLOCK_COUNT).subscribe()
         Mockito.verify<EOSApiService>(api, Mockito.atMost(1)).info
-        Mockito.verify<EOSApiService>(api, Mockito.times(EXPECTED_BLOCK_COUNT)).getBlock(Mockito.anyInt())
+        Mockito.verify<EOSApiService>(api, Mockito.times(EXPECTED_BLOCK_COUNT)).getBlock(any())
     }
 
     @Test
     fun blockCountCannotBeLargerThanHighestBlock() {
-        Mockito.`when`(api.info).thenReturn(Observable.just(BlockInfo(HEAD_BLOCK_NUM)))
+        whenever(api.info).thenReturn(Observable.just(BlockInfo(HEAD_BLOCK_NUM)))
         sut.getLastNBlocks(HEAD_BLOCK_NUM + 1).subscribe({ }, { throwable ->
             Assert.assertEquals(throwable.message, BlockRepositoryImpl.ILLEGAL_BLOCK_COUNT_ERROR)
         })

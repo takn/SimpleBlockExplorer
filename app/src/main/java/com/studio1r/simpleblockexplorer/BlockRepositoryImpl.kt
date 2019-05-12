@@ -2,7 +2,8 @@ package com.studio1r.simpleblockexplorer
 
 import io.reactivex.Observable
 
-class BlockRepositoryImpl(val api: EOSApiService) : BlockRepository {
+class BlockRepositoryImpl(private val api: EOSApiService,
+                          private val blockInfoFactory: BlockInfoRequestFactory) : BlockRepository {
     companion object {
         const val ILLEGAL_BLOCK_COUNT_ERROR: String = "blockCount argument is larger than head block number"
     }
@@ -14,14 +15,13 @@ class BlockRepositoryImpl(val api: EOSApiService) : BlockRepository {
         var blocks = mutableListOf<Block>()
         return api.info
                 .flatMap { blockInfo ->
-                    println("BLOCK INFO::" + blockInfo)
                     if (blockCount > blockInfo.head_block_num) {
                         throw IllegalArgumentException(ILLEGAL_BLOCK_COUNT_ERROR)
                     }
-                    Observable.range((blockInfo.head_block_num + 1) - blockCount, blockCount)
+                    Observable.range((blockInfo.head_block_num + 1) - blockCount,
+                            blockCount)
                 }.map { it ->
-                    var reversed = blockCount - it + 1
-                    api.getBlock(reversed)
+                    api.getBlock(blockInfoFactory.fromId(it))
 
                 }.map { t -> blocks.add(t.blockingLast()) }
                 .flatMap {

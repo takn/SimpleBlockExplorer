@@ -23,8 +23,8 @@ class BlockListFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         var a = activity as MainActivity
         viewModel = ViewModelProviders.of(this, a.resourceLocator.factory).get(BlockListViewModel::class.java)
-        // TODO: Use the ViewModel
-        viewModel.getBlocks().observe(this, Observer { Log.d("HI", "got something") })
+        viewModel.getBlocks().observe(this, Observer { data -> Log.d("HI", "got something::" + data) })
+
     }
 
 }
