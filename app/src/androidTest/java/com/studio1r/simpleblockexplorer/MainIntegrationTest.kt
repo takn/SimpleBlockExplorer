@@ -66,7 +66,7 @@ class MainIntegrationTest {
 
     @Test
     fun itemsCanExpand() {
-        onView(ViewMatchers.withSubstring("block_num"))
+        onView(ViewMatchers.withText("timestamp: ts0"))
                 .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
     }
 }
