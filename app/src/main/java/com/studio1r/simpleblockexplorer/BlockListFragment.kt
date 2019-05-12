@@ -72,6 +72,7 @@ class BlockAdapter : RecyclerView.Adapter<BlockAdapter.ViewHolder>() {
             itemView.timeStamp.text = String.format("timestamp: %s", data.timestamp)
             itemView.blockId.text = String.format("block num: %d", data.block_num)
             itemView.idHash.text = String.format("block id: %s", data.id)
+            itemView.actionCount.text = String.format("transactions: %d", data.transactions.size)
 
             //populate details
             itemView.detail1.text = data.producer_signature

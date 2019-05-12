@@ -18,7 +18,7 @@ public class MockBlockRepository implements BlockRepository {
     private void populate() {
         for (int i = 0; i < 10; i++) {
             mockBlocks.add(new BlockEntity("ts" + i, "id" + i, i,
-                    new ArrayList<BlockAction>(), "ps" + i, "p" + i, "sv" + i));
+                    new ArrayList<BlockTransaction>(), "ps" + i, "p" + i, "sv" + i));
         }
     }
 
