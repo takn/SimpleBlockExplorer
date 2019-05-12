@@ -2,8 +2,7 @@
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="4dp"
-    android:padding="4dp">
+    android:layout_margin="4dp">
 
     <LinearLayout
         android:id="@+id/container"
@@ -13,7 +12,22 @@
         android:padding="4dp">
 
         <TextView
+            android:id="@+id/timeStamp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
             android:id="@+id/blockId"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/idHash"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/actionCount"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
@@ -21,6 +35,7 @@
             android:id="@+id/detailsContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:backgroundTint="@android:color/background_light"
             android:orientation="vertical"
             android:visibility="gone">
 

@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -33,7 +32,6 @@ class BlockListFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         var a = activity as MainActivity
         var lm = LinearLayoutManager(activity)
-//        lm.orientation = LinearLayoutManager.VERTICAL
         blockAdapter = BlockAdapter()
         recyclerView.apply {
             layoutManager = lm
@@ -41,16 +39,16 @@ class BlockListFragment : Fragment() {
         }
         viewModel = ViewModelProviders.of(this, a.resourceLocator.factory)
                 .get(BlockListViewModel::class.java)
-        viewModel.getBlocks().observe(this, Observer { data ->
-            Log.d("HI", "got something::" + data?.size)
+        viewModel.getBlocksLiveData().observe(this, Observer { data ->
             blockAdapter.updateData(data!!)
         })
+        refresh.setOnClickListener { viewModel.refreshBlocks() }
 
     }
 
 }
 
-class BlockAdapter : RecyclerView.Adapter<BlockAdapter.ViewHolder>() {
+public class BlockAdapter : RecyclerView.Adapter<BlockAdapter.ViewHolder>() {
     private var data = listOf<BlockEntity>()
     override fun getItemCount(): Int {
         return data.size
@@ -68,13 +66,19 @@ class BlockAdapter : RecyclerView.Adapter<BlockAdapter.ViewHolder>() {
 
     fun updateData(blockEntities: List<BlockEntity>) {
         this.data = blockEntities
-        Log.d("OK", "UPDATE DATA SIZE::" + data.size)
         notifyDataSetChanged()
     }
 
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(data: BlockEntity) {
+            itemView.timeStamp.text = String.format("timestamp: %s", data.timestamp)
             itemView.blockId.text = String.format("block num: %d", data.block_num)
+            itemView.idHash.text = String.format("block id: %s", data.id)
+
+            //populate details
+            itemView.detail1.text = data.producer_signature
+            itemView.detail2.text = data.schedule_version
+            itemView.detail3.text = data.previous
             itemView.setOnClickListener {
                 if (itemView.detailsContainer.visibility == View.VISIBLE) {
                     itemView.detailsContainer.visibility = View.GONE

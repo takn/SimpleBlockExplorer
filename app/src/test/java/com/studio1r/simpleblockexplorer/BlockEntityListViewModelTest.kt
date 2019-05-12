@@ -37,7 +37,7 @@ class BlockEntityListViewModelTest {
     @Test
     internal fun canGetBlocksEmpty() {
         whenever(repository.getLastNBlocks(10)).thenReturn(Observable.just(emptyList()))
-        sut.getBlocks().observeForever(observer)
+        sut.getBlocksLiveData().observeForever(observer)
         testScheduler.triggerActions()
         Assert.assertEquals(0, sut.blockEntityLiveData.value?.size)
     }
@@ -45,11 +45,12 @@ class BlockEntityListViewModelTest {
     @Test
     internal fun canGetBlocks() {
         var blocks = mutableListOf<BlockEntity>()
+
         for (i in 1..10) {
-            blocks.add(BlockEntity(i.toString()))
+            blocks.add(BlockEntity("t", "id", i, arrayListOf(), "signature", "previous", "schedule"))
         }
         whenever(repository.getLastNBlocks(10)).thenReturn(Observable.just(blocks))
-        sut.getBlocks().observeForever(observer)
+        sut.getBlocksLiveData().observeForever(observer)
         testScheduler.triggerActions()
         Assert.assertEquals(10, sut.blockEntityLiveData.value?.size)
 
@@ -59,7 +60,7 @@ class BlockEntityListViewModelTest {
     fun canGetBlocksError() {
         whenever(repository.getLastNBlocks(10))
                 .thenReturn(Observable.error(IllegalStateException("expected")))
-        sut.getBlocks().observeForever(observer)
+        sut.getBlocksLiveData().observeForever(observer)
         testScheduler.triggerActions()
         Assert.assertEquals("expected", sut.errorLiveData.value)
     }

@@ -48,7 +48,6 @@ public class ResourceLocator {
             interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
             OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
 
-
             Retrofit.Builder builder = new Retrofit.Builder();
             builder
                     .baseUrl(EOS_BASE_URL)

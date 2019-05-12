@@ -25,6 +25,9 @@ class BlockRepositoryImpl(private val api: EOSApiService,
 
                 }.map { t -> blocks.add(t.blockingLast()) }
                 .flatMap {
+                    if(blocks.size==blockCount){
+                        blocks.reverse()
+                    }
                     Observable.fromArray(blocks)
                 }
     }
