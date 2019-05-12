@@ -9,7 +9,7 @@ It is composed as follows:
 * View      = BlockListFragment
 * ViewModel = BlockListViewModel
 
-BlockListViewModel provides a LiveData observable to which the BlockListFragment subscribes to.
+BlockListViewModel provides a LiveData observable to which the BlockListFragment subscribes.
 A simple button from the fragment invokes a block refresh to BlockListViewModel.
 
 The data for BlockListViewModel is provided via the BlockRepository interface.
@@ -33,6 +33,8 @@ Errors are handled by the viewModel.
 Instrumented tests should have a bit more coverage, only a couple of simple tests are in place with 
 the purpose of demonstrating an understanding of how to work with them. 
 Only a few fields are displayed for raw 'detail' data.
+
+Each block info is fetched using an RxJava range operator. This displays each block info from lowest (oldest) to highest (newest). The order should be reversed either by populating in reverse order or by having the adapter sort the list based on id num. 
 
 
 
