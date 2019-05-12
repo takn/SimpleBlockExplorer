@@ -4,11 +4,13 @@ import android.support.test.InstrumentationRegistry
 import android.support.test.espresso.Espresso.onView
 import android.support.test.espresso.IdlingRegistry
 import android.support.test.espresso.IdlingResource
+import android.support.test.espresso.action.ViewActions
 import android.support.test.espresso.assertion.ViewAssertions
 import android.support.test.espresso.matcher.ViewMatchers
 import android.support.test.filters.LargeTest
 import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
+import org.hamcrest.Matchers
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
@@ -66,7 +68,17 @@ class MainIntegrationTest {
 
     @Test
     fun itemsCanExpand() {
-        onView(ViewMatchers.withText("timestamp: ts0"))
+
+        var firstItemMatcher = ViewMatchers.withText("timestamp: ts0")
+
+        onView(firstItemMatcher)
+                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+
+        onView(firstItemMatcher).perform(ViewActions.click())
+
+
+        var detailsMatcher = ViewMatchers.withId(R.id.detailsContainer)
+        onView(Matchers.allOf(detailsMatcher, ViewMatchers.isDisplayed()))
                 .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
     }
 }
