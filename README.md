@@ -30,6 +30,11 @@ Errors are handled by the viewModel.
 
 #### TODOS:
 
+!!!! I noticed that my reports are broken.
+I suspect this is because i'm subclassing the `AndroidTestRunner` which generates the reports.
+With sufficient time instead of fixing those reports I would work on unifying the reports, 
+something like https://engineering.rallyhealth.com/android/code-coverage/testing/2018/06/04/android-code-coverage.html
+
 Instrumented tests should have a bit more coverage, only a couple of simple tests are in place with 
 the purpose of demonstrating an understanding of how to work with them. 
 Only a few fields are displayed for raw 'detail' data.
