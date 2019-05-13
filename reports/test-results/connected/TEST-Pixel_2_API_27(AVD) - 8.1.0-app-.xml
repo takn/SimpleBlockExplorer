@@ -1,0 +1,10 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<testsuite name="com.studio1r.simpleblockexplorer.MainIntegrationTest" tests="2" failures="0" errors="0" skipped="0" time="5.383" timestamp="2019-05-13T05:38:07" hostname="localhost">
+  <properties>
+    <property name="device" value="Pixel_2_API_27(AVD) - 8.1.0" />
+    <property name="flavor" value="" />
+    <property name="project" value="app" />
+  </properties>
+  <testcase name="useAppContext" classname="com.studio1r.simpleblockexplorer.MainIntegrationTest" time="1.416" />
+  <testcase name="itemsCanExpand" classname="com.studio1r.simpleblockexplorer.MainIntegrationTest" time="1.704" />
+</testsuite>

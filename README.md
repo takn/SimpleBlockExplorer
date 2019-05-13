@@ -30,10 +30,13 @@ Errors are handled by the viewModel.
 
 #### TODOS:
 
-!!!! I noticed that my reports are broken.
-I suspect this is because i'm subclassing the `AndroidTestRunner` which generates the reports.
-With sufficient time instead of fixing those reports I would work on unifying the reports, 
+
+With sufficient time unified reports would be an improvement.
 something like https://engineering.rallyhealth.com/android/code-coverage/testing/2018/06/04/android-code-coverage.html
+
+I ran into a bit of trouble configuring jUnit reporting, it seems things have changed and the test
+dsl is no longer available. Some research/reading about working with jUnit and androidJUnit options
+is in order. Coverage reporting is missing for jUnit tests. 
 
 Instrumented tests should have a bit more coverage, only a couple of simple tests are in place with 
 the purpose of demonstrating an understanding of how to work with them. 

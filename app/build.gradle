@@ -14,10 +14,7 @@ android {
         versionName "1.0"
         testInstrumentationRunner "com.studio1r.simpleblockexplorer.MockTestRunner"
     }
-    testOptions {
-        reportDir "$rootDir/test-reports"
-        resultsDir "$rootDir/test-results"
-    }
+
     buildTypes {
         debug {
             testCoverageEnabled true
@@ -27,8 +24,21 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-
+    testOptions {
+        reportDir "$rootDir/reports/test-reports"
+        resultsDir "$rootDir/reports/test-results"
+    }
 }
+
+task testAndReport(type: Copy) {
+    dependsOn 'check'
+    dependsOn 'test'
+    dependsOn 'connectedCheck'
+    from "$buildDir/reports/"
+    into "$rootDir/reports/"
+}
+
+
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])

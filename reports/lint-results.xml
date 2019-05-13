@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<issues format="4" by="lint 3.2.0">
+
+    <issue
+        id="ObsoleteSdkInt"
+        severity="Warning"
+        message="This folder configuration (`v24`) is unnecessary; `minSdkVersion` is 26. Merge all the resources in this folder into `drawable`."
+        category="Performance"
+        priority="6"
+        summary="Obsolete SDK_INT Version Check"
+        explanation="This check flags version checks that are not necessary, because the `minSdkVersion` (or surrounding known API level) is already at least as high as the version checked for.&#xA;&#xA;Similarly, it also looks for resources in `-vNN` folders, such as `values-v14` where the version qualifier is less than or equal to the `minSdkVersion`, where the contents should be merged into the best folder."
+        quickfix="studio">
+        <location
+            file="/Users/nelsonramirez/dev/SimpleBlockExplorer/app/src/main/res/drawable-v24"/>
+    </issue>
+
+    <issue
+        id="ObsoleteSdkInt"
+        severity="Warning"
+        message="This folder configuration (`v26`) is unnecessary; `minSdkVersion` is 26. Merge all the resources in this folder into `mipmap-anydpi`."
+        category="Performance"
+        priority="6"
+        summary="Obsolete SDK_INT Version Check"
+        explanation="This check flags version checks that are not necessary, because the `minSdkVersion` (or surrounding known API level) is already at least as high as the version checked for.&#xA;&#xA;Similarly, it also looks for resources in `-vNN` folders, such as `values-v14` where the version qualifier is less than or equal to the `minSdkVersion`, where the contents should be merged into the best folder."
+        quickfix="studio">
+        <location
+            file="/Users/nelsonramirez/dev/SimpleBlockExplorer/app/src/main/res/mipmap-anydpi-v26"/>
+    </issue>
+
+    <issue
+        id="GoogleAppIndexingWarning"
+        severity="Warning"
+        message="App is not indexable by Google Search; consider adding at least one Activity with an ACTION-VIEW intent filter. See issue explanation for more details."
+        category="Usability"
+        priority="5"
+        summary="Missing support for Firebase App Indexing"
+        explanation="Adds URLs to get your app into the Google index, to get installs and traffic to your app from Google Search."
+        url="https://g.co/AppIndexing/AndroidStudio"
+        urls="https://g.co/AppIndexing/AndroidStudio"
+        errorLine1="    &lt;application"
+        errorLine2="    ^"
+        quickfix="studio">
+        <location
+            file="/Users/nelsonramirez/dev/SimpleBlockExplorer/app/src/main/AndroidManifest.xml"
+            line="7"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        severity="Warning"
+        message="Hardcoded string &quot;these are some details&quot;, should use `@string` resource"
+        category="Internationalization"
+        priority="5"
+        summary="Hardcoded text"
+        explanation="Hardcoding text attributes directly in layout files is bad for several reasons:&#xA;&#xA;* When creating configuration variations (for example for landscape or portrait) you have to repeat the actual text (and keep it up to date when making changes)&#xA;&#xA;* The application cannot be translated to other languages by just adding new translations for existing string resources.&#xA;&#xA;There are quickfixes to automatically extract this hardcoded string into a resource lookup."
+        errorLine1="                android:text=&quot;these are some details&quot; />"
+        errorLine2="                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="/Users/nelsonramirez/dev/SimpleBlockExplorer/app/src/main/res/layout/item_block.xml"
+            line="46"
+            column="17"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        severity="Warning"
+        message="Hardcoded string &quot;more deeets&quot;, should use `@string` resource"
+        category="Internationalization"
+        priority="5"
+        summary="Hardcoded text"
+        explanation="Hardcoding text attributes directly in layout files is bad for several reasons:&#xA;&#xA;* When creating configuration variations (for example for landscape or portrait) you have to repeat the actual text (and keep it up to date when making changes)&#xA;&#xA;* The application cannot be translated to other languages by just adding new translations for existing string resources.&#xA;&#xA;There are quickfixes to automatically extract this hardcoded string into a resource lookup."
+        errorLine1="                android:text=&quot;more deeets&quot; />"
+        errorLine2="                ~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="/Users/nelsonramirez/dev/SimpleBlockExplorer/app/src/main/res/layout/item_block.xml"
+            line="52"
+            column="17"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        severity="Warning"
+        message="Hardcoded string &quot;more deeets 333 \n 13231132\n 1lkjdfsalfjks\n&quot;, should use `@string` resource"
+        category="Internationalization"
+        priority="5"
+        summary="Hardcoded text"
+        explanation="Hardcoding text attributes directly in layout files is bad for several reasons:&#xA;&#xA;* When creating configuration variations (for example for landscape or portrait) you have to repeat the actual text (and keep it up to date when making changes)&#xA;&#xA;* The application cannot be translated to other languages by just adding new translations for existing string resources.&#xA;&#xA;There are quickfixes to automatically extract this hardcoded string into a resource lookup."
+        errorLine1="                android:text=&quot;more deeets 333 \n 13231132\n 1lkjdfsalfjks\n&quot; />"
+        errorLine2="                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="/Users/nelsonramirez/dev/SimpleBlockExplorer/app/src/main/res/layout/item_block.xml"
+            line="59"
+            column="17"/>
+    </issue>
+
+</issues>

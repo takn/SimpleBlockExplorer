@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BlockListFragment.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=0;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">debugAndroidTest</a> &gt; <a href="index.source.html" class="el_package">com.studio1r.simpleblockexplorer</a> &gt; <span class="el_source">BlockListFragment.kt</span></div><h1>BlockListFragment.kt</h1><pre class="source lang-java linenums">package com.studio1r.simpleblockexplorer
+
+import android.arch.lifecycle.Observer
+import android.arch.lifecycle.ViewModelProviders
+import android.os.Bundle
+import android.support.v4.app.Fragment
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import kotlinx.android.synthetic.main.block_list_fragment.*
+import kotlinx.android.synthetic.main.item_block.view.*
+
+
+<span class="fc" id="L16">class BlockListFragment : Fragment() {</span>
+
+    private lateinit var viewModel: BlockListViewModel
+
+    private lateinit var blockAdapter: BlockAdapter
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+                              savedInstanceState: Bundle?): View? {
+<span class="fc" id="L24">        return inflater.inflate(R.layout.block_list_fragment, container, false)</span>
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+<span class="fc" id="L28">        super.onActivityCreated(savedInstanceState)</span>
+<span class="pc bpc" id="L29" title="1 of 2 branches missed.">        var a = activity as MainActivity</span>
+<span class="fc" id="L30">        var lm = LinearLayoutManager(activity)</span>
+<span class="fc" id="L31">        blockAdapter = BlockAdapter()</span>
+<span class="fc" id="L32">        recyclerView.apply {</span>
+<span class="fc" id="L33">            layoutManager = lm</span>
+<span class="pc bpc" id="L34" title="1 of 2 branches missed.">            adapter = blockAdapter</span>
+<span class="fc" id="L35">        }</span>
+<span class="pc bpc" id="L36" title="1 of 2 branches missed.">        var app = a.application as ResourceProvider</span>
+<span class="fc" id="L37">        var resourceLocator = app.resourceLocator</span>
+<span class="fc" id="L38">        viewModel = ViewModelProviders.of(this, resourceLocator.factory)</span>
+<span class="fc" id="L39">                .get(BlockListViewModel::class.java)</span>
+<span class="pc bpc" id="L40" title="1 of 2 branches missed.">        viewModel.getBlocksLiveData().observe(this, Observer { data -&gt;</span>
+<span class="pc bpc" id="L41" title="1 of 2 branches missed.">            blockAdapter.updateData(data!!)</span>
+<span class="fc" id="L42">        })</span>
+<span class="pc" id="L43">        refresh.setOnClickListener { viewModel.refreshBlocks() }</span>
+
+<span class="fc" id="L45">    }</span>
+
+}
+
+<span class="fc" id="L49">class BlockAdapter : RecyclerView.Adapter&lt;BlockAdapter.ViewHolder&gt;() {</span>
+<span class="fc" id="L50">    private var data = listOf&lt;BlockEntity&gt;()</span>
+    override fun getItemCount(): Int {
+<span class="fc" id="L52">        return data.size</span>
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+<span class="fc" id="L56">        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_block, parent, false)</span>
+<span class="fc" id="L57">        return ViewHolder(view)</span>
+    }
+
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+<span class="fc" id="L61">        val item = data[position]</span>
+<span class="fc" id="L62">        holder.bind(item)</span>
+<span class="fc" id="L63">    }</span>
+
+    fun updateData(blockEntities: List&lt;BlockEntity&gt;) {
+<span class="fc" id="L66">        this.data = blockEntities</span>
+<span class="fc" id="L67">        notifyDataSetChanged()</span>
+<span class="fc" id="L68">    }</span>
+
+<span class="fc" id="L70">    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {</span>
+        fun bind(data: BlockEntity) {
+<span class="fc" id="L72">            itemView.timeStamp.text = String.format(&quot;timestamp: %s&quot;, data.timestamp)</span>
+<span class="fc" id="L73">            itemView.blockId.text = String.format(&quot;block num: %d&quot;, data.block_num)</span>
+<span class="fc" id="L74">            itemView.idHash.text = String.format(&quot;block id: %s&quot;, data.id)</span>
+<span class="fc" id="L75">            itemView.actionCount.text = String.format(&quot;transactions: %d&quot;, data.transactions.size)</span>
+
+            //populate details
+<span class="fc" id="L78">            itemView.detail1.text = data.producer_signature</span>
+<span class="fc" id="L79">            itemView.detail2.text = data.schedule_version</span>
+<span class="fc" id="L80">            itemView.detail3.text = data.previous</span>
+<span class="fc" id="L81">            itemView.setOnClickListener {</span>
+<span class="pc bpc" id="L82" title="1 of 2 branches missed.">                if (itemView.detailsContainer.visibility == View.VISIBLE) {</span>
+<span class="nc" id="L83">                    itemView.detailsContainer.visibility = View.GONE</span>
+                } else {
+<span class="fc" id="L85">                    itemView.detailsContainer.visibility = View.VISIBLE</span>
+                }
+<span class="fc" id="L87">            }</span>
+<span class="fc" id="L88">        }</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span>Generated by the Android Gradle plugin 3.2.0</div></body></html>
