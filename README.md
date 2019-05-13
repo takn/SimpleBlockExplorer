@@ -20,7 +20,7 @@ The main implementation uses Retrofit as the transport layer for fetching the da
 serialization and RxJava for marshalling. 
 
 Mock implementation is provided to AndroidTest via a custom runner that provides `MockBlockExplorerApplication`
-which in turns provides Mock fixtures via `MockResourceLocator`
+which in turn provides Mock fixtures via `MockResourceLocator`
 It's understood that best practices call for using specific source sets to provide mock data, but this
 simpler approach was used in the interest of time. 
 
@@ -41,7 +41,7 @@ Only a few fields are displayed for raw 'detail' data.
 
 Each block info is fetched using an RxJava range operator. 
 This displays each block info from lowest (oldest) to highest (newest). 
-The order should be reversed either by populating in reverse order or by having the adapter sort the list based on id num. 
+The order is reversed once the full list is populated, but this is noticeable in the UI when it happens, so it's not ideal. 
 
 
 
